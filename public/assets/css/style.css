@@ -1,0 +1,321 @@
+body{
+font-family: 'Raleway', sans-serif;
+}
+.pointer{cursor:pointer;}
+.no-margin{margin:0px!important;}
+.no-padding{padding:0px!important;}
+.pdTop-10{padding-top:10px!important;}
+.mt-5{margin-top:5px!important;}
+.mt-10{margin-top:10px!important;}
+.mt-20{margin-top:29px!important;}
+ul li{list-style:none;}
+ul{padding:0px;}
+a{display:inline-block;}
+.main{background:#f5f5f5;border-top: 2px solid #333;}
+.menu-wrap{
+	margin: 15px 0 5px;
+}
+.menu-list ul {
+	margin-top:7px;
+	float:right;
+  
+}
+.menu-list ul li{
+	display:inline-block;margin:0px 12px;
+	}
+.menu-list ul li a{
+	color:#333;
+	font-size:14px;
+}
+.menu-list ul li a:hover{text-decoration:none!important;}
+.login-btn {
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 5px 18px;
+}
+.category-list{padding:0px;}
+.category-list > li {
+    display: block !important;
+	padding: 10px 15px;
+	margin:0px!important;
+}
+.category-list > li:hover{
+	background:#f5f5f5;
+}
+.main{border-top:1px soild #777;}
+.banner-wrap{
+	color:#fff;
+	 background: rgba(0, 0, 0, 0) url("../images/banner-bg.jpg") no-repeat scroll 0 0 / 100%;
+	 height: 428px;
+}
+.banner-wrap h1{
+	padding-top:110px;
+}
+.banner-wrap span {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 10px 0 7px;
+}
+.form-wrap{
+	width:760px;
+	margin:0 auto;
+	padding-bottom:200px;
+}
+.f-location,.f-problem {
+    border-left: 1px solid #ccc;
+    border-right: 0 none;
+    box-shadow: none;
+    cursor: pointer;
+    height: 50px;
+	 margin: 0!important;
+	
+}
+.search-btn{
+	padding: 13px 20px;
+	margin-left:-5px;
+}
+.health-issues {
+    background: #0077cc;
+    padding: 20px 0;
+}
+.health-issues  ul li a{
+	color:#fff;
+}
+.health-issues  ul li a:hover{text-decoration:none;}
+.tabs-list {
+    border: medium none;
+    margin: 0 auto;
+    text-align: center;
+    width: auto;
+	font-weight:700;
+}
+.tabs-list > li {
+    border-right: 1px solid #fff;
+    height: 35px;
+    padding: 5px 15px;
+   
+}
+.tabs-list > li:last-child{
+	border-right:none;
+}
+.content-tabwrap{
+	padding:25px 0px;
+}
+.box-wrap:hover{
+	filter: brightness(60%);
+	color:#fff;
+}
+.box-wrap{
+	width:165px;
+	
+}
+.box-wrap span {
+   border-radius: 0 0 4px 4px;
+    bottom: 0;
+    color: #333;
+    display: block;
+    font-weight: 700;
+    padding: 0 0 5px 12px;
+    position: absolute;
+}
+.box-wrap span:hover{color:#fff;}
+.box-1{
+	height:100px;
+    border:1px solid #ccc;
+	border-radius: 4px 4px 0 0;
+	height:150px;
+	position:relative;
+}
+
+
+/*****doctor-list page css***/
+.fliter-wrap {
+    border-top:1px solid #777;
+	 border-bottom:1px solid #777;
+    padding: 10px 0 3px;
+	margin-bottom:25px;
+	background:#fff;
+}
+.checkbox-ind {
+    border: 2px solid #aaa;
+}
+.doctor-detailBox {
+	padding:10px;
+	border:1px solid #ccc;
+	margin-bottom: 20px;
+	background:#fff;
+}
+/**.doctor-detailBox:hover{
+	box-shadow:2px 2px 2px 1px;
+}*/
+.doctor-name {
+    color: #333;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+.doctor-profile p ,.doctor-profile span{
+	font-size:12px;
+	color:#333;
+	margin:0px!important;
+	display:block;
+}
+.view-more{
+	color: #0077cc;
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+	margin-top: 13px;
+}
+.location-details{
+	font-size:14px;
+	list-style:none;
+}
+.location-details li{
+	margin:6px 0px;
+}
+.book-btn {
+    background: #0077cc;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+    font-weight: 600;
+    margin-top: 15px;
+    padding: 8px 15px;
+    text-align: center;
+	cursor:pointer;
+}
+.book-btn:hover,.book-btn:focus{text-decoration:none;color:#fff;}
+.phone-no {
+    color:  #01a400!important;
+    font-size: 20px;
+    font-weight: 700;
+}
+.call-wrap p{
+	font-size:14px;
+}
+.call-wrap{display:none; margin-top: 20px;}
+.table-head{
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+	padding-top:10px;
+	font-size:12px;
+	font-weight:700;
+}
+.table-head >.col-sm-2,.table-head>.col-sm-3{text-align:center;}
+.table-timing{
+	font-size:12px;
+	border-bottom:1px solid #ddd;
+	text-align:center;
+	padding-top:10px;
+}
+.appointment-wrap{display:none;}
+.foot-wrap h4{
+	margin:0px;
+	color:#fff;
+	font-size:18px;
+	
+}
+footer{
+	background:#0077cc;
+	padding: 45px 0;
+}
+.footer-menu{padding:0px;}
+.footer-menu li{
+	list-style:none;
+}
+.footer-menu li a{
+	color:#fff;
+	font-size:12px;
+	
+}
+.copyright-wrap a{display:inline-block;}	
+.copyright-wrap{
+	color:#fff;
+	font-size:14px;
+	font-weight:700;
+	text-align:center;
+	 padding-top: 30px;
+}
+.copyright-wrap p{margin-top:10px;}
+.advertise-wrap{
+	width:320px;
+	height:260px;
+	border:1px solid #ddd;
+}
+.app-install p{
+	color:#333;
+	font-size:12px;
+	font-weight:700;
+}
+.send-link{
+	margin-top:10px;
+}
+.app-install {
+    margin-top: 20px;
+}
+.popular-search h4{font-size:14px;font-weight:700;}
+.popular-search ul li a{
+	color:#333;
+	font-size:14px;
+}
+.details-div{font-size:14px;}
+.details-div p b{display:block;}
+/*** css for doctor-view page***/
+.doctorDetail-tabs{
+    border: medium none;
+    font-size: 15px;
+	padding:15px;
+	
+	
+}
+.doctorDetail-tabs ul li  a {
+    background: #f5f5f5 none repeat scroll 0 0 !important;
+    border: medium none !important;
+    color: #333 !important;
+    font-weight: 700;
+    margin: 5px 15px;
+}
+.tab-content {
+    padding-top: 15px;
+}
+.doctorDetail-tabs>.tab-content p b{display:block;}
+/***17 may css**/
+.filter-heading{
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+    padding: 5px 0 5px 18px;
+	margin:0pc;
+	background:#fff;
+}
+.filter-heading a{
+	font-size:14px;
+	color:#333;
+	font-weight:400;
+	margin:0px;
+}
+.panel-primary {
+    border: 1px solid #ccc;
+}
+.list-group-item {
+    border: medium none;
+    padding: 5px 15px;
+}
+.filter-checkbox {
+    font-size: 14px;
+    margin: 0;
+}
+.detail-footer {
+    border-top: 1px solid #ccc;
+	padding-top:10px;
+}
+.foot-link {
+    color: #333;
+    font-size: 14px;
+	font-weight:700;
+}
+.foot-link:hover{
+	 color: #333;
+	 text-decoration:none;
+}
