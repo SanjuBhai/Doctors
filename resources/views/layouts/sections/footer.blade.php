@@ -1,4 +1,4 @@
-<footer>
+<footer class='mt-10'>
    <div class="container">
       <div class="row">
          <div class="col-md-3 foot-wrap">

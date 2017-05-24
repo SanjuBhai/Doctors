@@ -2,15 +2,66 @@
 	<div class="panel-body" >
 		<div class="panel-heading">
 			<h4 class="panel-title filter-heading ">
-				City
+				<span>City</span>
 			</h4>
 		</div>
 		<div id='cityBox'>
-			<input type="text" name="city" id='city' class='form-control'>
+			<input type="text" name="city" id='city' class='form-control' autocomplete="off">
 		</div>
 		<div class="panel-heading mt-10">
 			<h4 class="panel-title filter-heading ">
-				SPECIALIZATION
+				<span>Locality</span>
+			</h4>
+		</div>
+		<div id='localityBox'>
+			<input type="text" name="locality" id='locality' class='form-control' autocomplete="off">
+		</div>
+		<div class="panel-heading mt-10">
+			<h4 class="panel-title filter-heading ">
+				<span>Specialization / Symptom</span>
+			</h4>
+		</div>
+		<div id='specialityBox'>
+			<input type="text" name="speciality" id='speciality' class='form-control' autocomplete="off">
+		</div>
+		<div class="panel-heading mt-10">
+			<h4 class="panel-title filter-heading">
+				<span>Clinic fees</span>
+			</h4>
+		</div>
+		<div class="range-slider">
+			<div id="double_number_range"></div>
+		</div>
+		<div class="panel-heading mt-10">
+			<h4 class="panel-title filter-heading">
+				<span>Gender</span>
+			</h4>
+		</div>
+		<div id="genders">
+			<ul class="list-group">
+				<li class="list-group-item">
+					<div class="checkbox" >
+						<label class="custom-control custom-checkbox filter-checkbox">
+						  <input class="custom-control-input" type="checkbox" value='m' id='male'>
+						  <span class="custom-control-indicator checkbox-ind"></span>
+						  <span class="custom-control-description">Male</span>
+						</label>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="checkbox">
+						<label class="custom-control custom-checkbox filter-checkbox">
+						  <input class="custom-control-input" type="checkbox" value='f' id='female'>
+						  <span class="custom-control-indicator checkbox-ind"></span>
+						  <span class="custom-control-description">Female</span>
+						</label>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="panel-heading mt-10">
+			<h4 class="panel-title filter-heading ">
+				<span>Speciality</span>
 			</h4>
 		</div>
 		<div id="specializations">
@@ -29,36 +80,9 @@
 			</ul>
 		</div>
 
-		<div class="panel-heading">
-			<h4 class="panel-title filter-heading ">
-				LOCALITY
-			</h4>
-		</div>
-		<div id="localities">
-			<ul class="list-group">
-				<li class="list-group-item">
-					<div class="checkbox">
-						<label class="custom-control custom-checkbox filter-checkbox">
-						  <input class="custom-control-input" type="checkbox">
-						  <span class="custom-control-indicator checkbox-ind"></span>
-						  <span class="custom-control-description">Dwarka</span>
-						</label>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="checkbox" >
-						<label class="custom-control custom-checkbox filter-checkbox">
-						  <input class="custom-control-input" type="checkbox">
-						  <span class="custom-control-indicator checkbox-ind"></span>
-						  <span class="custom-control-description">Dwarka</span>
-						</label>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<div class="panel-heading">
+		<!-- <div class="panel-heading mt-10">
 			<h4 class="panel-title filter-heading">
-				AVAILABILITY
+				<span>Availabilty</span>
 			</h4>
 		</div>
 		<div id="collapse3">
@@ -82,47 +106,53 @@
 					</div>
 				</li>
 			</ul>
-		</div>
-		<!--<div class="panel-heading">
-			<h4 class="panel-title filter-heading">
-				CLINIC FEES
-			</h4>
-		</div>-->
-		<!--<div  class="range-slider">
-			<b>Free</b> <input id="ex2" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/> <b>RS. 1000</b>
-		</div>-->
-		<div class="panel-heading">
-			<h4 class="panel-title filter-heading">
-				Gender
-			</h4>
-		</div>
-		<div id="genders">
-			<ul class="list-group">
-				<li class="list-group-item">
-					<div class="checkbox" >
-						<label class="custom-control custom-checkbox filter-checkbox">
-						  <input class="custom-control-input" type="checkbox" value='male' id='male'>
-						  <span class="custom-control-indicator checkbox-ind"></span>
-						  <span class="custom-control-description">Male</span>
-						</label>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="checkbox">
-						<label class="custom-control custom-checkbox filter-checkbox">
-						  <input class="custom-control-input" type="checkbox" value='female' id='female'>
-						  <span class="custom-control-indicator checkbox-ind"></span>
-						  <span class="custom-control-description">Female</span>
-						</label>
-					</div>
-				</li>
-			</ul>
-		</div>
+		</div> -->
 	</div>
 </div>
 
+<script src="{{ url('assets/js/bootstrap3-typeahead.min.js') }} "></script>
+<script src="{{ url('assets/js/range.js') }} "></script>
+<link rel="stylesheet" type="text/css" href="{{ url('assets/css/range.css') }}">
 <script type="text/javascript">
 jQuery(function($){
+   	var _token = "<?php echo csrf_token(); ?>";
+   	
+   	$("#double_number_range").rangepicker({
+        type: "double",
+        startValue: 0,
+        endValue: 1000,
+        translateSelectLabel: function(currentPosition, totalPosition) {
+            return parseInt(1000 * (currentPosition / totalPosition));
+        }
+    });
+
+   	var cityUrl = '/api/get-cities';
+   	$('#city').typeahead({
+      	source:  function (query, process) {
+         	return $.post(cityUrl, {query: query, _token: _token}, function(response){
+            	return process($.parseJSON(response));
+         	});
+      	}
+   	});
+
+   	var localityUrl = '/api/get-localities';
+   	$('#locality').typeahead({
+      	source:  function (query, process) {
+         	return $.post(localityUrl, {query: $('#city').val()+' '+query, _token: _token}, function(response){
+            return process($.parseJSON(response));
+         	});
+      	}
+   	});
+
+   	var specialityUrl = '/api/get-specialities';
+   	$('#speciality').typeahead({
+      source:  function (query, process) {
+         return $.post(specialityUrl, {query: query, _token: _token}, function(response){
+            return process($.parseJSON(response));
+         });
+      }
+    });
+
 	selectFilters();
 	filter( window.location.hash );
 
@@ -135,7 +165,7 @@ jQuery(function($){
 		changeHash();
 	});
 
-	$('#city').keydown(function(e){
+	$('#city, #locality, #speciality').keydown(function(e){
 		if(e.keyCode == 13 ) {
 			changeHash();
 			filter( window.location.hash );
@@ -146,20 +176,23 @@ jQuery(function($){
 function changeHash()
 {
 	var hash;
-	var city = $('#city').val();
-	var specializations = [], localities = [];
+	var specializations = [];
 	
 	// Get selected specializations
 	$('#specializations input[type="checkbox"]:checked').each(function(){
 		specializations.push($(this).val());
 	});
+	
+	// Get selected genders
+	var genders = [];
+	if( $('#male').is(':checked') ) {
+		genders.push('m');
+	}
+	if( $('#female').is(':checked') ) {
+		genders.push('f');
+	}
 
-	// Get selected localities
-	$('#localities input[type="checkbox"]:checked').each(function(){
-		localities.push($(this).val());
-	});
-
-	hash = 'city='+$('#city').val()+'&speciality='+specializations+'&locality='+localities;
+	hash = 'find='+encodeURIComponent($('#speciality').val().trim())+'&city='+encodeURIComponent($('#city').val().trim())+'&speciality='+specializations.join(',')+'&locality='+encodeURIComponent($('#locality').val().trim())+'&gender='+genders.join(',')+'&fees=&order=&page=1';
 
 	// Update url
 	window.location.hash = hash;
@@ -167,26 +200,46 @@ function changeHash()
 
 function filter( hash = '#' )
 {
+	hash = decodeURIComponent( hash );
+	$('#zeroresults').hide();
 	$('#loader').show();
 	var url = '/search';
 	var _token = "<?php echo csrf_token(); ?>";
 	$.post(url, {filters : hash, _token: _token}, function(response){
 		$('#loader').hide();
-		$('#results').html(response);
+		if( response ) {
+			$('#results').html(response);
+		} else {
+			$('#results').html('');
+			$('#zeroresults').show();
+		}
 	});
 }
 
 function selectFilters()
 {
 	var hash = window.location.hash;
+	hash = decodeURIComponent( hash );
 	$('#filterbar input[type="checkbox"]').prop('checked', false);
 
 	var city = hash.match('city=(.*)&speciality');
-	$('#city').val(city[1]);
+	if( city != undefined && city[1] ) {
+		$('#city').val(city[1]);
+	}
+
+	var locality = hash.match('locality=(.*)&gender');
+	if( locality != undefined && locality[1] ) {
+		$('#locality').val(locality[1]);
+	}
+
+	var speciality = hash.match('find=(.*)&city');
+	if( speciality != undefined && speciality[1] ) {
+		$('#speciality').val(speciality[1]);
+	}
 
 	// Get specialities
 	var speciality = hash.match('speciality=(.*)&locality');
-	if( speciality[1] )
+	if( speciality != undefined && speciality[1] )
 	{
 		speciality = speciality[1].split(',');
 		$.each(speciality, function(index, value){
@@ -194,25 +247,23 @@ function selectFilters()
 		});
 	}
 
-	// Get localities
-	var locality = hash.match('locality=(.*)&gender');
-	if( locality[1] )
+	// Get genders
+	var gender = hash.match('gender=(.*)&fees');
+	if( gender != undefined && gender[1] )
 	{
-		locality = locality[1].split(',');
-		$.each(locality, function(index, value){
-			$('#locality-'+value).prop('checked', true);
-		});
-	}
-
-	var gender = hash.match('gender=(.*)');
-	if( gender[1] )
-	{
-		if( gender[1].indexOf('male') != -1 ) {
+		if( gender[1].includes('m') ) {
 			$('#male').prop('checked', true);
 		}
-		if( gender[1].indexOf('female') != -1 ) {
+		if( gender[1].includes('f') ) {
 			$('#female').prop('checked', true);
 		}
+	}
+
+	// Get fees
+	var fees = hash.match('fees=(.*)&order');
+	if( fees != undefined && fees[1] )
+	{
+
 	}
 }
 </script>

@@ -13,8 +13,13 @@
          <div id='loader' class="alert alert-info text-center">
             Loading...
          </div>
+         <div id='zeroresults' class='alert alert-danger' style="display: none;">No results found.</div>
          <div id='results'>
             
+         </div>
+         <div class="clearfix"></div>
+         <div id='loadMore' style='display: none;'>
+            <button type="button" class="btn btn-primary pointer">Show more</button>
          </div>
       </div>
       @include('sidebar')

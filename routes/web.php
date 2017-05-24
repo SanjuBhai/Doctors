@@ -24,6 +24,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function(){
 	
 });
 
+// Ajax Routes
+Route::group(['prefix' => 'api'], function(){
+	Route::post('get-cities', 'ApiController@getCities');
+	Route::post('get-localities', 'ApiController@getLocalities');
+	Route::post('get-specialities', 'ApiController@getSpecialities');
+});
+
 Route::match(['get', 'post'], 'search', 'SearchController@search')->name('search');
 
 // Show 404 page in case of incorrect url

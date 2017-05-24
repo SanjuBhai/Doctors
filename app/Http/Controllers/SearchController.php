@@ -24,53 +24,71 @@ class SearchController extends Controller
         {
             $arguments = Request::all();
 
-            // print_r($arguments);exit;
             $matches = array();
-            $city = preg_match('/city=(.*)\&speciality/', $arguments['filters'], $matches);
-            $city = $matches[1];
-            
-            $speciality = preg_match('/speciality=(.*)\&locality/', $arguments['filters'], $matches);
-            $speciality = $matches[1];
-            $speciality = $speciality ? explode(',', $speciality) : array();
-            
-            $locality = preg_match('/locality=(.*)\&gender/', $arguments['filters'], $matches);
-            $locality = $matches[1];
-            $locality = $locality ? explode(',', $locality) : array();
-            
             $per_page = 20;
             $page = isset($arguments['page']) ? $arguments['page'] : 1;
             $offset = ($page-1) * $per_page;
 
             // Get Doctors
+            $select = '*';
             $doctors = Doctor::where('status', 1)
                 ->with('specialization')
                 ->orderBy('created_at', 'desc')
                 ->take($per_page)
                 ->skip($offset);
-                
-            if( $speciality ) {
-                $doctors = $doctors->whereIn('speciality_id', $speciality);
-            }
-
-            if( $city ) {
-                $doctors = $doctors->where('clinic_city', 'like', $city);
-            }
-
-            if( $locality ) 
+            
+            // Get gender
+            preg_match('/gender=(.*)\&fees/', $arguments['filters'], $matches);
+            $gender = isset($matches[1]) ? $matches[1] : '';
+            if( $gender ) 
             {
-                foreach ($locality as $key => $value) {
-                    $doctors = $doctors->where('clinic_locality', 'like', $val);   
-                }
+                $gender = str_replace(array('m', 'f'), array('male', 'female') , $gender);
+                $doctors = $doctors->whereIn('gender', explode(',', $gender));
             }
 
+            // Get fees
+            preg_match('/fees=(.*)\&order/', $arguments['filters'], $matches);
+            $fees = isset($matches[1]) ? $matches[1] : '';
+            if( $fees ) 
+            {
+                list($min, $max) = explode(',', $fees);
+                $doctors = $doctors->where('clinic_fees', '>=', $min);
+                $doctors = $doctors->where('clinic_fees', '<=', $max);
+            }
+
+            // Get city
+            preg_match('/city=(.*)\&speciality/', $arguments['filters'], $matches);
+            $city = isset($matches[1]) ? $matches[1] : '';
+            
+            // Get locality
+            preg_match('/locality=(.*)\&gender/', $arguments['filters'], $matches);
+            $locality = isset($matches[1]) ? $matches[1] : '';
+            
+            // Get lat long of selected location 
+            $latlong = getLatLong($city.' '.$locality);
+            if( $latlong ) 
+            {
+                $select = DB::raw('*, SQRT(POW(69.1 * (clinic_latitude - '.$latlong['latitude'].'), 2) + POW(69.1 * ('.$latlong['longitude'].' - clinic_longitude) * COS(clinic_latitude / 57.3), 2)) AS distance');
+                $doctors = $doctors->havingRaw('distance < 10');
+            }
+
+            // Get specialities
+            preg_match('/speciality=(.*)\&locality/', $arguments['filters'], $matches);
+            $specialities = isset($matches[1]) ? $matches[1] : '';
+            if( $specialities ) {
+                $doctors = $doctors->whereIn('speciality_id', explode(',', $specialities));
+            }
+
+            $doctors = $doctors->select($select);
             // print_r($doctors->get()->toArray());exit;
+            // echo $doctors->toSql(); exit;
 
             return view('search-results')
                 ->with('doctors', $doctors->get());
         }
 
         // Get specializations
-        $specializations = Specialization::get();
+        $specializations = Specialization::where('type', 1)->get();
         
         return view('search')
             ->with('specializations', $specializations);
