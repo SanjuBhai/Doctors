@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Specialization;
+use App\Specialization, App\DoctorEducation, App\DoctorVideo;
 
 class Doctor extends Model
 {
@@ -38,5 +38,17 @@ class Doctor extends Model
     public function specialization()
     {
         return $this->hasOne('App\Specialization', 'id', 'speciality_id');
+    }
+
+    // Get educations
+    public function educations()
+    {
+        return $this->hasMany('App\DoctorEducation', 'doctor_id', 'doctor_id');
+    }
+
+    // Get videos
+    public function videos()
+    {
+        return $this->hasMany('App\DoctorVideo', 'doctor_id', 'doctor_id');
     }
 }

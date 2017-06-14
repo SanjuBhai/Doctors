@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Filter Results')
+@section('title', 'Filter Doctors')
 
 @section('content')
 
@@ -11,15 +11,15 @@
       </div>
       <div class="col-md-6 col-sm-12">
          <div id='loader' class="alert alert-info text-center">
-            Loading...
+            @lang('Loading...')
          </div>
-         <div id='zeroresults' class='alert alert-danger' style="display: none;">No results found.</div>
+         <div id='zeroresults' class='alert alert-danger' style="display: none;">@lang('No results found.')</div>
          <div id='results'>
             
          </div>
          <div class="clearfix"></div>
          <div id='loadMore' style='display: none;'>
-            <button type="button" class="btn btn-primary pointer">Show more</button>
+            <button type="button" class="btn btn-primary pointer">@lang('Show more')</button>
          </div>
       </div>
       @include('sidebar')

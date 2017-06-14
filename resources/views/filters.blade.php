@@ -1,8 +1,9 @@
 <div id="filterbar" class="panel panel-primary">
 	<div class="panel-body" >
+		<input type="hidden" name="page" id='page' value='1'>
 		<div class="panel-heading">
 			<h4 class="panel-title filter-heading ">
-				<span>City</span>
+				<span>{{ __('City') }}</span>
 			</h4>
 		</div>
 		<div id='cityBox'>
@@ -10,7 +11,7 @@
 		</div>
 		<div class="panel-heading mt-10">
 			<h4 class="panel-title filter-heading ">
-				<span>Locality</span>
+				<span>{{ __('Locality') }}</span>
 			</h4>
 		</div>
 		<div id='localityBox'>
@@ -18,7 +19,7 @@
 		</div>
 		<div class="panel-heading mt-10">
 			<h4 class="panel-title filter-heading ">
-				<span>Specialization / Symptom</span>
+				<span>{{ __('Specialization / Symptom') }}</span>
 			</h4>
 		</div>
 		<div id='specialityBox'>
@@ -26,7 +27,7 @@
 		</div>
 		<div class="panel-heading mt-10">
 			<h4 class="panel-title filter-heading">
-				<span>Clinic fees</span>
+				<span>{{ __('Clinic fees') }}</span>
 			</h4>
 		</div>
 		<div class="range-slider">
@@ -34,7 +35,7 @@
 		</div>
 		<div class="panel-heading mt-10">
 			<h4 class="panel-title filter-heading">
-				<span>Gender</span>
+				<span>{{ __('Gender') }}</span>
 			</h4>
 		</div>
 		<div id="genders">
@@ -44,7 +45,7 @@
 						<label class="custom-control custom-checkbox filter-checkbox">
 						  <input class="custom-control-input" type="checkbox" value='m' id='male'>
 						  <span class="custom-control-indicator checkbox-ind"></span>
-						  <span class="custom-control-description">Male</span>
+						  <span class="custom-control-description">{{ __('Male') }}</span>
 						</label>
 					</div>
 				</li>
@@ -53,7 +54,7 @@
 						<label class="custom-control custom-checkbox filter-checkbox">
 						  <input class="custom-control-input" type="checkbox" value='f' id='female'>
 						  <span class="custom-control-indicator checkbox-ind"></span>
-						  <span class="custom-control-description">Female</span>
+						  <span class="custom-control-description">{{ __('Female') }}</span>
 						</label>
 					</div>
 				</li>
@@ -61,7 +62,7 @@
 		</div>
 		<div class="panel-heading mt-10">
 			<h4 class="panel-title filter-heading ">
-				<span>Speciality</span>
+				<span>{{ __('Speciality') }}</span>
 			</h4>
 		</div>
 		<div id="specializations">
@@ -116,7 +117,8 @@
 <script type="text/javascript">
 jQuery(function($){
    	var _token = "<?php echo csrf_token(); ?>";
-   	
+   	var showmoreclick = false;
+
    	$("#double_number_range").rangepicker({
         type: "double",
         startValue: 0,
@@ -139,37 +141,51 @@ jQuery(function($){
    	$('#locality').typeahead({
       	source:  function (query, process) {
          	return $.post(localityUrl, {query: $('#city').val()+' '+query, _token: _token}, function(response){
-            return process($.parseJSON(response));
+            	return process($.parseJSON(response));
          	});
       	}
    	});
 
-   	var specialityUrl = '/api/get-specialities';
+   	var specialityUrl = '/api/get-data';
    	$('#speciality').typeahead({
-      source:  function (query, process) {
-         return $.post(specialityUrl, {query: query, _token: _token}, function(response){
-            return process($.parseJSON(response));
-         });
-      }
+      	source:  function (query, process) {
+         	return $.post(specialityUrl, {query: query, _token: _token}, function(response){
+            	return process($.parseJSON(response));
+         	});
+      	}
     });
 
 	selectFilters();
-	filter( window.location.hash );
+	filter(false, true);
 
-	$(window).on('hashchange', function() {
+	$(window).on('hashchange', function() {	
 		selectFilters();
-		filter( window.location.hash );
+		filter( showmoreclick ? true : false );
 	});
 
-	$(document).on('click', '#specializations input[type="checkbox"], #localities input[type="checkbox"], #genders input[type="checkbox"]', function(){
+	$(document).on('click', '#specializations input[type="checkbox"], #genders input[type="checkbox"]', function(){
+		$('#page').val(1);
+		showmoreclick = false;
 		changeHash();
 	});
 
 	$('#city, #locality, #speciality').keydown(function(e){
-		if(e.keyCode == 13 ) {
+		if(e.keyCode == 13 ) 
+		{
+			$('#page').val(1);
+			showmoreclick = false;
 			changeHash();
-			filter( window.location.hash );
+			filter();
 		}
+	});
+
+	$('#loadMore button').click(function(){
+		var page = parseInt( $('#page').val() );
+		$(this).html('loading..').attr('disabled', true);
+		$('#page').val( ++page );
+		showmoreclick = true;
+		changeHash();
+		$(this).html('Show more').attr('disabled', false);
 	});
 });
 
@@ -192,26 +208,48 @@ function changeHash()
 		genders.push('f');
 	}
 
-	hash = 'find='+encodeURIComponent($('#speciality').val().trim())+'&city='+encodeURIComponent($('#city').val().trim())+'&speciality='+specializations.join(',')+'&locality='+encodeURIComponent($('#locality').val().trim())+'&gender='+genders.join(',')+'&fees=&order=&page=1';
-
+	var page = parseInt($('#page').val());
+	
+	hash = 'find='+encodeURIComponent($('#speciality').val().trim())+'&city='+encodeURIComponent($('#city').val().trim())+'&speciality='+specializations.join(',')+'&locality='+encodeURIComponent($('#locality').val().trim())+'&gender='+genders.join(',')+'&fees=&order=&page='+page;
+	
 	// Update url
 	window.location.hash = hash;
 }
 
-function filter( hash = '#' )
+function filter( append = false, pageload = false )
 {
+	var hash = window.location.hash;
 	hash = decodeURIComponent( hash );
 	$('#zeroresults').hide();
 	$('#loader').show();
 	var url = '/search';
 	var _token = "<?php echo csrf_token(); ?>";
-	$.post(url, {filters : hash, _token: _token}, function(response){
+	var page = parseInt( $('#page').val() );
+	$.post(url, {filters : hash, _token: _token, pageload: pageload}, function(response){
 		$('#loader').hide();
-		if( response ) {
-			$('#results').html(response);
+		response = $.parseJSON(response);
+		if( response.status == 'success' )
+		{
+			console.log(append);
+			if( response.pages > page ) {
+				$('#loadMore').show();
+			} else {
+				$('#loadMore').hide();
+			}
+
+			if( response.data ) 
+			{
+				if( append == true ){
+					$('#results').append(response.data);
+				} else {
+					$('#results').html(response.data);
+				}
+			} else {
+				$('#results').html('');
+				$('#zeroresults').show();
+			}
 		} else {
-			$('#results').html('');
-			$('#zeroresults').show();
+			alert('Failed due to some problem. Please try again.');
 		}
 	});
 }
@@ -265,5 +303,11 @@ function selectFilters()
 	{
 
 	}
+
+	// Get page
+	var page = hash.match('page=(.*)');
+	if( page != undefined && page[1] ) {
+		$('#page').val(page[1]);
+	}	
 }
 </script>

@@ -102,4 +102,33 @@ function getLatLong($address)
 
     return false;
 }
+
+// Get distance between two places in km using latlongs
+function getDistance( $latitude1, $longitude1, $latitude2, $longitude2 ) 
+{
+    $earth_radius = 6371;
+
+    $dLat = deg2rad( $latitude2 - $latitude1 );  
+    $dLon = deg2rad( $longitude2 - $longitude1 );  
+
+    $a = sin($dLat/2) * sin($dLat/2) + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * sin($dLon/2) * sin($dLon/2);  
+    $c = 2 * asin(sqrt($a));  
+    $d = $earth_radius * $c;  
+
+    return $d;
+}
+
+// Get image url
+function getImageUrl( $object )
+{
+    if( $object->image && file_exists( public_path('uploads/'.$object->image) ) ){
+        return url('uploads/'.$object->image);
+    }
+
+    if( $object->gender == 'female' ){
+        return url('images/female.png');    
+    }
+    
+    return url('images/male.png');
+}
 ?>

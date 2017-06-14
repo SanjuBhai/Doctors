@@ -179,7 +179,7 @@ jQuery(function($){
       }
    });
 
-   var specialityUrl = '/api/get-specialities';
+   var specialityUrl = '/api/get-data';
    $('#speciality').typeahead({
       source:  function (query, process) {
          return $.post(specialityUrl, {query: query, _token: _token}, function(response){

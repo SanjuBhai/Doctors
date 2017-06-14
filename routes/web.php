@@ -28,10 +28,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function(){
 Route::group(['prefix' => 'api'], function(){
 	Route::post('get-cities', 'ApiController@getCities');
 	Route::post('get-localities', 'ApiController@getLocalities');
-	Route::post('get-specialities', 'ApiController@getSpecialities');
+	Route::post('get-data', 'ApiController@getData');
 });
 
 Route::match(['get', 'post'], 'search', 'SearchController@search')->name('search');
+Route::get('doctor/{slug}', 'Doctor\DoctorController@details');
 
 // Show 404 page in case of incorrect url
 Route::any('{all}', function(){

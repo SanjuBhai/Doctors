@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Request, Session, Config;
-use App\Specialization;
+use App\Specialization, App\Data;
 
 class ApiController extends Controller
 {
@@ -55,11 +55,11 @@ class ApiController extends Controller
         return json_encode($matches);
     }
 
-    // Get specialities
-    public function getSpecialities()
+    // Get data
+    public function getData()
     {
         $matches = array();
-        $data = Specialization::where('name' ,'like', '%'.trim(Request::get('query').'%'))->get();
+        $data = Data::where('status', 1)->where('name' ,'like', '%'.trim(Request::get('query').'%'))->get();
         foreach ($data as $key => $value) {
             $matches[] = $value->name;
         }

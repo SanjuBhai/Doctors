@@ -14,7 +14,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-    	$specializations = Specialization::get();
-        return view('home')->with('specializations', $specializations);
+        return view('home');
     }
 }

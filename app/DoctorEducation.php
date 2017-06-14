@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class DoctorEducation extends Model
 {
-	use SoftDeletes;
-
 	protected $table = 'doctor_educations';
 
 	protected $primaryKey = 'id';

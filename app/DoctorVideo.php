@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class DoctorVideo extends Model
 {
-	use SoftDeletes;
-
 	protected $table = 'doctor_videos';
 
 	protected $primaryKey = 'id';
