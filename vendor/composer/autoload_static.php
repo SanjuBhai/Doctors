@@ -71,6 +71,7 @@ class ComposerStaticInit3d5fe91a4b01e14f66073a4901899d02
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Modules\\' => 8,
         ),
         'L' => 
         array (
@@ -205,6 +206,10 @@ class ComposerStaticInit3d5fe91a4b01e14f66073a4901899d02
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Modules\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Modules',
+        ),
         'League\\Flysystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
@@ -321,7 +326,6 @@ class ComposerStaticInit3d5fe91a4b01e14f66073a4901899d02
         'App\\Doctor' => __DIR__ . '/../..' . '/app/Doctor.php',
         'App\\DoctorEducation' => __DIR__ . '/../..' . '/app/DoctorEducation.php',
         'App\\DoctorSchedule' => __DIR__ . '/../..' . '/app/DoctorSchedule.php',
-        'App\\DoctorSearch' => __DIR__ . '/../..' . '/app/DoctorSearch.php',
         'App\\DoctorVideo' => __DIR__ . '/../..' . '/app/DoctorVideo.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\File' => __DIR__ . '/../..' . '/app/File.php',
@@ -337,7 +341,6 @@ class ComposerStaticInit3d5fe91a4b01e14f66073a4901899d02
         'App\\Http\\Controllers\\Doctor\\ScheduleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Doctor/ScheduleController.php',
         'App\\Http\\Controllers\\Doctor\\VideoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Doctor/VideoController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
-        'App\\Http\\Controllers\\SearchController' => __DIR__ . '/../..' . '/app/Http/Controllers/SearchController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
@@ -2052,6 +2055,10 @@ class ComposerStaticInit3d5fe91a4b01e14f66073a4901899d02
         'Mockery\\Undefined' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Undefined.php',
         'Mockery\\VerificationDirector' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/VerificationDirector.php',
         'Mockery\\VerificationExpectation' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/VerificationExpectation.php',
+        'Modules\\Search\\Database\\Seeders\\SearchDatabaseSeeder' => __DIR__ . '/../..' . '/Modules/Search/Database/Seeders/SearchDatabaseSeeder.php',
+        'Modules\\Search\\Http\\Controllers\\SearchController' => __DIR__ . '/../..' . '/Modules/Search/Http/Controllers/SearchController.php',
+        'Modules\\Search\\Models\\DoctorSearch' => __DIR__ . '/../..' . '/Modules/Search/Models/DoctorSearch.php',
+        'Modules\\Search\\Providers\\SearchServiceProvider' => __DIR__ . '/../..' . '/Modules/Search/Providers/SearchServiceProvider.php',
         'Monolog\\ErrorHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/ErrorHandler.php',
         'Monolog\\Formatter\\ChromePHPFormatter' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Formatter/ChromePHPFormatter.php',
         'Monolog\\Formatter\\ElasticaFormatter' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Formatter/ElasticaFormatter.php',

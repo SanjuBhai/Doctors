@@ -27,14 +27,14 @@
                   <span>₹{{ $doctor->online_fees }} online</span>
                </div>
                <div class="contact-btn">
-                  <a href="booking-step.html" class="book-btn" id="book-now">Book Appointment</a>
+                  <a href="{{ route('book-appointment', array('doctor' => $doctor->slug) ) }}" class="book-btn" id="book-now">Book Appointment</a>
                   <!-- <a href="#" class="consult-btn" id="consult-now">Consult Online</a>
                   <a href="#" class="call-btn" id="call-now" data-toggle="modal" data-target="#exampleModal">Call Now</a> -->
                </div>
             </div>
             <div class="col-sm-4 report-issue">
                <a href="#" class="feedback-btn" id="consult-now" data-toggle="modal" data-target="#exampleModal" > <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Submit Feedback</a>
-               <a href="#" class="issue-btn" id="call-now" data-toggle="modal" data-target="#exampleModal" ><i class="fa fa-flag" aria-hidden="true"></i> Report Issue</a>
+               <a href="#" class="issue-btn" id="call-now" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-flag" aria-hidden="true"></i> Report Issue</a>
             </div>
          </div>
       </div>
@@ -53,7 +53,7 @@
                   </li>
                   <li>
                      <h4 class="info-heading"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Education</h4>
-                     <span>MBBS - LLRM Medical College, Meerut - 1995 Diploma in Venerology & Dermatology (DVD) - KMC Manipal - 2002</span>
+                     <span>MBBS - LLRM Medical College, Meerut - 1995 Diploma in Venerology &amp; Dermatology (DVD) - KMC Manipal - 2002</span>
                   </li>
                   <li>
                      <h4 class="info-heading"><i class="fa fa-globe" aria-hidden="true"></i>Languages spoken</h4>

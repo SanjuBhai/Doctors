@@ -90,13 +90,19 @@ function getLatLong($address)
     {
         $key = config('constants.google_api_key');
         $formattedAddr = str_replace(' ','+', $address);
-        $geocodeFromAddr = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?key='.$key.'&address='.$formattedAddr.'&sensor=false'); 
-        $output = json_decode($geocodeFromAddr);
-        if( !empty($output->results) )
+        
+        try
         {
-            $data['latitude']  = $output->results[0]->geometry->location->lat; 
-            $data['longitude'] = $output->results[0]->geometry->location->lng;
-            return $data;
+            $geocodeFromAddr = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?key='.$key.'&address='.$formattedAddr.'&sensor=false');
+            $output = json_decode($geocodeFromAddr);
+            if( !empty($output->results) )
+            {
+                $data['latitude']  = $output->results[0]->geometry->location->lat; 
+                $data['longitude'] = $output->results[0]->geometry->location->lng;
+                return $data;
+            }
+        } catch(Exception $e) {
+            return false;
         }
     }
 

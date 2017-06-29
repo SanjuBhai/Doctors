@@ -37,6 +37,12 @@ class User extends Authenticatable
         return url('images/male.png');
     }
 
+    // Get full user name
+    public function getFullName()
+    {
+        return $this->first_name.' '.$this->last_name;
+    }
+
     // Add record for last login
     public function updateLoginTime()
     {

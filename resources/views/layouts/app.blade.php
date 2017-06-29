@@ -26,6 +26,7 @@
       @include('layouts.sections.footer')
    </div>
 
+<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 <script src="{{ url('assets/js/bootstrap.min.js') }}"></script>
 <script>
 jQuery(function($){
@@ -36,7 +37,25 @@ jQuery(function($){
    
    $('a[href="#"]').click(function (e) {
      e.preventDefault();
-   });   
+   });
+
+   // Prevent entering alphabets in numeric field
+   $(document).on('keypress','.numeric,input[type="number"]', function(evt){
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if (charCode == 46) {
+         return true;
+      }
+     
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+         return false;
+      }
+      return true;
+   });
+    
+   $(document).on('paste drop', '.numeric,input[type="number"]', function(e){
+      e.preventDefault();
+   });
 });
 </script>
 

@@ -186,11 +186,11 @@ a:hover {
     background: #fff;
 }
 /**.doctor-detailBox:hover{
-	box-shadow:2px 2px 2px 1px;
+    box-shadow:2px 2px 2px 1px;
 }*/
 .doctor-detailBox a img{
-	width:100px;
-	height:120px;
+    width:100px;
+    height:120px;
 }
 .doctor-name {
     color: #333;
@@ -527,21 +527,21 @@ footer {
 }
 /***19 may*/
 .review-wrap{
-margin:20px 0px;	
+margin:20px 0px;    
 }
 .review-div {
  
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 20px 25px;
-	background:#fff;
+    background:#fff;
 }
 .review-div h3{
-	font-size:18px;
-	margin-bottom: 15px;
+    font-size:18px;
+    margin-bottom: 15px;
 }
 .inputField-wrap{
-	margin-bottom:15px;
+    margin-bottom:15px;
 }
 .inputField-wrap span {
     display: block;
@@ -556,7 +556,7 @@ margin:20px 0px;
     border-top: medium none;
     font-size: 14px;
     width: 100%;
-	border-radius:0px;
+    border-radius:0px;
 }
 .like-option li {
     border: 1px solid #ccc;
@@ -564,23 +564,47 @@ margin:20px 0px;
     cursor: pointer;
     display: inline-block;
     padding: 15px;
-	margin:0px 10px;
+    margin:0px 10px;
 }
 .like-option > li i {
     font-size: 20px;
 }
 .like-option  li:hover{
      color:#c82506;
-	 border: 1px solid #c82506;
+     border: 1px solid #c82506;
 }
 .rate-review li{
-	display:inline-block;
-	margin:0px 8px;
-	font-size: 20px;
-	cursor:pointer;
+    display:inline-block;
+    margin:0px 8px;
+    font-size: 20px;
+    cursor:pointer;
 }
 .rate-review li>.fa-star{color:#c82506!important;}
 #double_number_range{
-	background:#fff;
-	padding:12px;
+    background:#fff;
+    padding:12px;
+}
+ul.list-inline.slides li {
+    border: 1px solid #eee;
+    padding: 5px;
+    cursor: pointer;
+}
+.timings li.active, .timings li:hover, ul.slides li.active, ul.slides li:hover {
+    background: #ddd;
+}
+#days-slider .flex-nav-prev {
+    float: left;
+}
+#days-slider .flex-nav-next {
+    float: right;
+}
+.timings li {
+    float: left;
+    margin: 0 10px 10px 0;
+    border: 1px solid #ccc;
+    padding: 2px 20px;
+    cursor: pointer
+}
+.otp-msg {
+    display: none;
 }

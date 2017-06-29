@@ -42,8 +42,8 @@
          </div>
       </div>
       <div class="col-md-12 copyright-wrap">
-         <a href="index.html"><img src="assets/images/foot-logo.png" alt="" title=""></a>
-         <p>Copyright @copy; 2017 Enuke. All rights reserved.</p>
+         <a href="{{ url('/') }}"><img src="{{ url('assets/images/foot-logo.png') }}" alt="" title=""></a>
+         <p>Copyright &copy; 2017 Enuke. All rights reserved.</p>
       </div>
    </div>
 </footer>

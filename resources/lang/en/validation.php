@@ -85,6 +85,7 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
+    'alpha_spaces'         => 'The :attribute can only contain characters and spaces.',
 
     /*
     |--------------------------------------------------------------------------
@@ -100,6 +101,7 @@ return [
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
+            'validation.alpha_spaces' => ':attribute can only contain characters and spaces.'
         ],
     ],
 
