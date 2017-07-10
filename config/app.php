@@ -179,6 +179,8 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,
+
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
@@ -231,6 +233,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Module' => Nwidart\Modules\Facades\Module::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

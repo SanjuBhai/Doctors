@@ -9,22 +9,22 @@
       <div class="col-md-12 col-sm-12">
          <div class="row doctor-detailBox">
             <div class="col-sm-2">
-               <span><img src="{{ $doctor->getImageUrl() }}" alt="{{ $doctor->prefix.' '.$doctor->name }}" title="{{ $doctor->prefix.' '.$doctor->name }}" width='140' height='140'></span>
+               <span><img src="{{ $provider->getImageUrl() }}" alt="{{ $provider->prefix.' '.$provider->name }}" title="{{ $provider->prefix.' '.$provider->name }}" width='140' height='140'></span>
             </div>
             <div class="col-sm-6 doctor-profile">
                <span class="doctor-name"> 
-                  {{ $doctor->prefix .' '. $doctor->name }} 
+                  {{ $provider->getFullName() }}
                   <span class="rating-icon">
                      <i class="fa fa-heart green-h" aria-hidden="true">&nbsp;94% 
-                     ({{ $doctor->rating_count }} ratings)</i>
+                     ({{ $provider->rating_count }} ratings)</i>
                   </span>
                </span>
-               <p><strong> {{ $doctor->qualifications }} </strong></p>
-               <span> {{ $doctor->specialization->name }}, {{ $doctor->clinic_city }}</span>
+               <p><strong> {{ $provider->qualifications }} </strong></p>
+               <span> {{ $provider->specialization->name }}, {{ $provider->clinic_city }}</span>
                <div class="fee-details">
-                  <span>{{ $doctor->experience }} Years Experience</span>
-                  <span>₹{{ $doctor->clinic_fees }} at clinic</span>
-                  <span>₹{{ $doctor->online_fees }} online</span>
+                  <span>{{ $provider->experience }} Years Experience</span>
+                  <span>₹{{ $provider->clinic_fees }} at clinic</span>
+                  <span>₹{{ $provider->online_fees }} online</span>
                </div>
             </div>
             <div class="col-sm-4 report-issue">
@@ -73,6 +73,8 @@
                                           <li data-id="{{ $schedule_id }}">{{ $time }}</li>
                                        @endforeach
                                     </ul>
+                                 @else
+                                    <p>No times found.</p>
                                  @endif
                               </div>
                            @endforeach
@@ -135,7 +137,7 @@
 <script>
 jQuery(function($){
    var json = {};
-   json.doctor = "<?php echo $doctor->slug ?>";
+   json.slug = "<?php echo $provider->slug ?>";
    $('.flexslider').flexslider({
       animation: "slide",
       slideshow: false,

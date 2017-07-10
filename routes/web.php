@@ -14,17 +14,6 @@
 // Home page
 Route::get('/', 'HomeController@index');
 
-// Doctor related routes
-Route::group(['namespace' => 'Doctor', 'prefix' => 'doctor'], function(){
-	Route::get('signup', 'DoctorController@signup')->name('doctor-signup');
-	Route::get('{doctor}', 'DoctorController@details');
-});
-
-// Admin related routes
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function(){
-	
-});
-
 // Ajax Routes
 Route::group(['prefix' => 'api'], function(){
 	Route::post('get-cities', 'ApiController@getCities');

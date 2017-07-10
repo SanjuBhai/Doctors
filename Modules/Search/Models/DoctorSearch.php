@@ -3,7 +3,8 @@
 namespace Modules\Search\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Specialization, App\Doctor;
+use Modules\User\Models\Doctor\Specialization;
+use Modules\User\Models\Doctor\Doctor;
 
 class DoctorSearch extends Doctor
 {
@@ -20,6 +21,6 @@ class DoctorSearch extends Doctor
     // Get related specilization
     public function specialization()
     {
-        return $this->hasOne('App\Specialization', 'id', 'speciality_id');
+        return $this->hasOne('Modules\User\Models\Doctor\Specialization', 'id', 'speciality_id');
     }
 }

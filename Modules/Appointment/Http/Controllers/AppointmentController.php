@@ -5,7 +5,11 @@ namespace Modules\Appointment\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use App\Doctor, App\OTP, Modules\Appointment\Models\Schedule, Modules\Appointment\Models\Appointment;
+use Modules\Appointment\Emails\AppointmentBooked;
+use Modules\Appointment\Models\Schedule, Modules\Appointment\Models\Appointment;
+use App\OTP;
+use App\User as Customer;
+use Modules\User\Models\Doctor\Doctor as Provider;
 use Auth, Mail, Session, Validator;
 
 class AppointmentController extends Controller
@@ -38,12 +42,12 @@ class AppointmentController extends Controller
      */
     public function create( $slug )
     {
-        // Get doctor details 
-        $doctor = Doctor::where('slug', $slug)
+        // Get provider details 
+        $provider = Provider::with('user')->where('slug', $slug)
             ->where('status', 1)
             ->first();
         
-        if( ! $doctor ) {
+        if( ! $provider ) {
             abort('404');
         }
 
@@ -62,10 +66,10 @@ class AppointmentController extends Controller
 
         // Get all schedules
         $schedules = Schedule::select('id', 'date', 'time')
-            ->where('user_id', $doctor->doctor_id)
+            ->where('user_id', $provider->doctor_id)
             ->where('is_used', 0)
             ->where('date', '>=', $begin->format('Y-m-d'))
-            ->where('date', '<=', $end->format('Y-m-d'))
+            ->where('date', '<', $end->format('Y-m-d'))
             ->get()
             ->toArray();
 
@@ -79,7 +83,7 @@ class AppointmentController extends Controller
         // print_r($dates);exit;
         
         return view('appointment::create')->with([
-            'doctor' => $doctor,
+            'provider' => $provider,
             'user'   => Auth::user(),
             'dates'  => $dates
         ]);
@@ -98,10 +102,13 @@ class AppointmentController extends Controller
             
             try
             {
-                // Check if Doctor exists
-                $doctor = Doctor::where('slug', $params['doctor'])->select('doctor_id', 'clinic_fees', 'status')->first();
-                if( !$doctor || $doctor->status==0 ) {
-                    throw new Exception('No Doctor selected.', 1);
+                // Check if Provider exists
+                $provider = Provider::with('user')
+                    ->where('slug', $params['slug'])
+                    ->first();
+
+                if( !$provider ) {
+                    throw new \Exception('No Provider selected.', 1);
                 }
 
                 // Validate OTP
@@ -109,7 +116,7 @@ class AppointmentController extends Controller
 
                 }
 
-                $params['fees'] = $doctor->clinic_fees;
+                $params['fees'] = $provider->clinic_fees;
 
                 $validator = Validator::make($params, [
                     'name' => 'required|max:255|alpha_spaces',
@@ -123,18 +130,21 @@ class AppointmentController extends Controller
                 }
 
                 // Save appointment
-                $model = new Appointment;
-                $model->fill( $params );
-                $model->provider_id = $doctor->doctor_id;
-                $model->customer_id = Auth::check() ? Auth::user()->id : 0;
-                if( $model->save() )
+                $appointment = new Appointment;
+                $appointment->fill( $params );
+                $appointment->provider_id = $provider->doctor_id;
+                $appointment->customer_id = Auth::check() ? Auth::user()->id : 0;
+                if( $appointment->save() )
                 {
-                    // Update doctor schedule
+                    // Update schedule
                     Schedule::where('id', $params['schedule_id'])->update([
                         'is_used' => 1
                     ]);
-
-                    // Send Notofication by email
+                    
+                    // Send Notifications by email
+                    $customer = Auth::check() ? Auth::user() : new Customer;
+                    $this->sendMailToCustomer($params['email'], $customer, $provider, $appointment);
+                    $this->sendMailToProvider($provider->user->email, $customer, $provider, $appointment);
                 }
 
             } catch (\Exception $e) {
@@ -184,5 +194,21 @@ class AppointmentController extends Controller
      */
     public function destroy()
     {
+    }
+
+    // Send email notification to customer
+    public function sendMailToCustomer($email, $customer, $provider, $appointment)
+    {
+        Mail::to( $email )->send(new AppointmentBooked(
+            $customer, $provider, $appointment, 'customer'
+        ));
+    }
+
+    // Send email notification to Service provider eg: Doctor, Barber, Tutor
+    public function sendMailToProvider($email, $customer, $provider, $appointment)
+    {
+        Mail::to( $email )->send(new AppointmentBooked(
+            $customer, $provider, $appointment, 'provider'
+        ));
     }
 }

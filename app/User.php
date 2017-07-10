@@ -36,7 +36,7 @@ class User extends Authenticatable
 
         return url('images/male.png');
     }
-
+    
     // Get full user name
     public function getFullName()
     {

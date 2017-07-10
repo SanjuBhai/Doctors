@@ -6,7 +6,9 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 use Request, Session, DB;
-use App\Specialization, App\Doctor, Modules\Search\Models\DoctorSearch;
+use Modules\User\Models\Doctor\Specialization; 
+use Modules\User\Models\Doctor\Doctor;
+use Modules\Search\Models\DoctorSearch;
 
 class SearchController extends Controller
 {

@@ -20,6 +20,12 @@ class Doctor extends Model
         'doctor_id','speciality_id', 'name', 'image', 'gender', 'qualifications', 'medical_registration_number','referral_code','prefix','clinic_name','clinic_fees','clinic_phone','clinic_city','clinic_locality','online_fees','experience','personal_statement','clinic_latitude','clinic_longitude','rating_count','like_count','status','facebook_link','twitter_link','linkedin_link','googleplus_link'
     ];
     
+    // Get full name
+    public function getFullName()
+    {
+        return $this->prefix.' '.$this->name;
+    }
+
     // Get image url
     public function getImageUrl()
     {

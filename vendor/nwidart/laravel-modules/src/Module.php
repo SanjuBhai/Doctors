@@ -27,11 +27,16 @@ class Module extends ServiceProvider
     protected $name;
 
     /**
-     * The module path,.
+     * The module path.
      *
      * @var string
      */
     protected $path;
+
+    /**
+     * @var array of cached Json objects, keyed by filename
+     */
+    protected $moduleJson = [];
 
     /**
      * The constructor.
@@ -180,7 +185,7 @@ class Module extends ServiceProvider
     }
 
     /**
-     * Get json contents.
+     * Get json contents from the cache, setting as needed.
      *
      * @param $file
      *
@@ -188,11 +193,13 @@ class Module extends ServiceProvider
      */
     public function json($file = null)
     {
-        if (is_null($file)) {
+        if ($file === null) {
             $file = 'module.json';
         }
 
-        return new Json($this->getPath() . '/' . $file, $this->app['files']);
+        return array_get($this->moduleJson, $file, function () use ($file) {
+            return $this->moduleJson[$file] = new Json($this->getPath() . '/' . $file, $this->app['files']);
+        });
     }
 
     /**

@@ -1,0 +1,16 @@
+{
+    "name": "QA",
+    "alias": "qa",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\QA\\Providers\\QAServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
