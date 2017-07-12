@@ -75,4 +75,15 @@ class User extends Authenticatable
         $loginRecord = UserLoginHistory::where(['user_id' => $this->id])->orderBy('id', 'desc')->take(2)->get();
         return $loginRecord;
     }
+
+    // Mutators
+    public function setFirstNameAttribute($value)
+    {
+        $this->attributes['first_name'] = ucfirst( trim( strip_tags( $value ) ) );
+    }
+
+    public function setLastNameAttribute($value)
+    {
+        $this->attributes['last_name'] = ucfirst( trim( strip_tags( $value ) ) );
+    }
 }

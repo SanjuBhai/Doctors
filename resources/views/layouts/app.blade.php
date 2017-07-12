@@ -5,17 +5,21 @@
          <nav id="navigation" class="row menu-wrap">
             <div class="col-md-4"><a href="{{ url('/') }}" class="navbar-brand">LOGO</a></div>
             <div class="col-md-8 menu-list">
-               <ul class="">
-                  <li><a href="#">List your practice for free</a></li>
-                  <li class="dropdown other-category">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Practo for Providers <b class="caret"></b></a>
-                     <ul class="dropdown-menu category-list">
-                        <li><a href="doctor-list.html">Doctor</a></li>
-                        <li><a href="doctor-list.html">Doctor</a></li>
-                        <li><a href="doctor-list.html">Doctor</a></li>
-                     </ul>
-                  </li>
-                  <li><a href="#" class="login-btn">Sign Up/Login</a></li>
+               <ul>
+                  @if( Auth::check() )
+                     <li class="dropdown other-category">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->getFullName() }} <b class="caret"></b></a>
+                        <ul class="dropdown-menu category-list">
+                           <li><a href="{{ url('account') }}">My Account</a></li>
+                           <li><a href="{{ url('account/change-password') }}">Change Password</a></li>
+                           <li><a href="{{ route('logout') }}">Logout?</a></li>
+                        </ul>
+                     </li>
+                  @else
+                     <li><a href="{{ url('doctor/register') }}" class="login-btn">Signup as Doctor</a></li>
+                     <li><a href="{{ url('register') }}" class="login-btn">Signup</a></li>
+                     <li><a href="{{ url('login') }}" class="login-btn">Login</a></li>
+                  @endif
                </ul>
             </div>
          </nav>

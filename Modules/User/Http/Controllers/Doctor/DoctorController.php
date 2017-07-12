@@ -11,22 +11,6 @@ use Modules\User\Models\Doctor\Specialization;
 
 class DoctorController extends Controller
 {
-    public function signup()
-    {
-        $doctor = new User;
-        
-        $prefix = array('Dr.', 'Dt.', 'Mr.', 'Ms.', 'Mrs.');
-        
-        // Get all specialities
-        $specialities = Specialization::where('status', 1)->pluck('name', 'id')->all();
-        
-        return view('user::doctor.signup')->with([
-            'prefix'        => $prefix,
-            'specialities'  => $specialities,
-            'doctor'        => $doctor 
-        ]);
-    }
-
     // Doctor full details
     public function details( $slug )
     {

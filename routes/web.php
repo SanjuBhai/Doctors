@@ -11,8 +11,11 @@
 |
 */
 
+Auth::routes();
+
 // Home page
 Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
 
 // Ajax Routes
 Route::group(['prefix' => 'api'], function(){
@@ -20,6 +23,8 @@ Route::group(['prefix' => 'api'], function(){
 	Route::post('get-localities', 'ApiController@getLocalities');
 	Route::post('get-data', 'ApiController@getData');
 });
+
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Show 404 page in case of incorrect url
 /*Route::any('{all}', function(){
