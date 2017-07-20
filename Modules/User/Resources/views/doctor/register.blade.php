@@ -6,15 +6,32 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('doctor.signup') }}">
                         {{ csrf_field() }}
+                        
+                        <div class="form-group{{ $errors->has('prefix') ? ' has-error' : '' }}">
+                            <label for="prefix" class="col-md-4 control-label">Prefix *</label>
+                            <div class="col-md-6">
+                                <select id='prefix' name='prefix' class="form-control" required>
+                                    <option value="">---Select---</option>
+                                    @foreach($prefix as $val)
+                                        <option {{ $val==old('prefix') ? 'selected' : ''}}>{{ $val }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('prefix'))
+                                    <span class="help-block red">
+                                        {{ $errors->first('prefix') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name *</label>
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
                                 @if ($errors->has('name'))
-                                    <span class="help-block">
+                                    <span class="help-block red">
                                         {{ $errors->first('name') }}
                                     </span>
                                 @endif
@@ -27,7 +44,7 @@
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
                                 @if ($errors->has('email'))
                                     <span class="help-block red">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        {{ $errors->first('email') }}
                                     </span>
                                 @endif
                             </div>
@@ -39,12 +56,12 @@
                                 <select id='speciality_id' name='speciality_id' class="form-control" required>
                                     <option value="">---Select---</option>
                                     @foreach($specialities as $key => $val)
-                                        <option value="{{ $key }}">{{ $val }}</option>
+                                        <option value="{{ $key }}" {{ $key==old('speciality_id') ? 'selected' : ''}} >{{ $val }}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('speciality_id'))
                                     <span class="help-block red">
-                                        <strong>{{ $errors->first('speciality_id') }}</strong>
+                                        {{ $errors->first('speciality_id') }}
                                     </span>
                                 @endif
                             </div>
@@ -55,7 +72,7 @@
                             <div class="col-md-6">
                                 <input id="medical_registration_number" type="text" class="form-control" name="medical_registration_number" value="{{ old('medical_registration_number') }}" required>
                                 @if ($errors->has('medical_registration_number'))
-                                    <span class="help-block">
+                                    <span class="help-block red">
                                         {{ $errors->first('medical_registration_number') }}
                                     </span>
                                 @endif
@@ -68,7 +85,7 @@
                                 <input id="password" type="password" class="form-control" name="password" required>
                                 @if ($errors->has('password'))
                                     <span class="help-block red">
-                                        <strong>{{ $errors->first('password') }}</strong>
+                                        {{ $errors->first('password') }}
                                     </span>
                                 @endif
                             </div>

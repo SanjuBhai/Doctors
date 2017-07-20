@@ -23,6 +23,26 @@ class User extends Authenticatable
         'first_name','last_name','email','password','phone','role_id','image','state','city','address','facebook_id','twitter_id','google_id','linkedin_id','device_type','is_email_verified','remember_token','ip_address','user_agent'
     ];
 
+    // Listeners
+    public static function boot()
+    {
+        static::creating(function ($model) {
+            $model->ip_address = ip2long($_SERVER['REMOTE_ADDR']);
+            $model->user_agent = $_SERVER['HTTP_USER_AGENT'];
+            $model->is_email_verified = 0;
+        });
+
+        static::updating(function ($model) {
+            // blah blah
+        });
+
+        static::deleting(function ($model) {
+            // blah blah
+        });
+        
+        parent::boot();
+    }
+
     // Get profile image url
     public function getImageUrl()
     {
@@ -74,6 +94,12 @@ class User extends Authenticatable
     {
         $loginRecord = UserLoginHistory::where(['user_id' => $this->id])->orderBy('id', 'desc')->take(2)->get();
         return $loginRecord;
+    }
+
+    // Accessors
+    public function getIpAddressAttribute($value)
+    {
+        return long2ip($value);
     }
 
     // Mutators

@@ -7,7 +7,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 <body>
-	Thanks for your registration. 
+	Thanks for your registration.
 
 	<br> <br>
 	

@@ -10,6 +10,7 @@ Route::group(['middleware' => 'web', 'namespace' => 'Modules\User\Http\Controlle
 {
 	Route::get('register', 'RegisterController@index')->name('doctor.signup');
 	Route::post('register', 'RegisterController@register');
+	Route::get('register/completed', 'RegisterController@thanks')->name('doctor.signup.completed');
 
 	Route::get('{doctor}', 'DoctorController@details');
 });

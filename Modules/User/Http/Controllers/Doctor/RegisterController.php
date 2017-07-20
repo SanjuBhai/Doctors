@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Modules\User\Emails\Dcotor\Register;
 use Session, Mail;
@@ -32,7 +33,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/doctor/register/completed';
 
     /**
      * Create a new controller instance.
@@ -41,7 +42,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' =>['thanks']] );
     }
 
     /**
@@ -53,10 +54,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'prefix' => 'required|in:Dr.,Dt.,Mr.,Ms.,Mrs.',
+            'speciality_id' => 'required|integer',
+            'medical_registration_number' => 'required|unique:doctors'
         ]);
     }
 
@@ -68,12 +71,41 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+        $user = User::create([
+            'first_name' => $data['name'],
+            'email'     => $data['email'],
+            'role_id'   => 2,
+            'password'  => bcrypt($data['password']),
         ]);
+
+        if( $user )
+        {
+            Doctor::create([
+                'doctor_id' => $user->id,
+                'prefix' => $data['prefix'],
+                'name' => $data['name'],
+                'speciality_id' => $data['speciality_id'],
+                'status' => 0
+            ]);
+        }
+
+        return $user;
+    }
+
+    /**
+     * Handle a registration request for the application. (overridden)
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
     }
 
     /**
@@ -85,12 +117,12 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        Session::flash('success', 'Check your email for confirmation link.');
+        Session::flash('doctor-signup', 'Check your email for confirmation link. You will have to wait until your Medical Registration Number gets verifed by our experts.');
         
         // Send mail to user
-        Mail::to( $user->email )->send(new Register( $user ));
+        // Mail::to( $user->email )->send(new Register( $user ));
 
-        return redirect( $this->redirectPath() );
+        return redirect()->route('doctor.signup.completed')->with('user', $user);
     }
 
     // Register form
@@ -98,8 +130,8 @@ class RegisterController extends Controller
     {
         $user = new User;
         
-        $doctor = new Doctor;
-
+        $doctor = New Doctor;
+        
         $prefix = array('Dr.', 'Dt.', 'Mr.', 'Ms.', 'Mrs.');
         
         // Get all specialities
@@ -111,5 +143,17 @@ class RegisterController extends Controller
             'user'          => $user,
             'doctor'        => $doctor
         ]);
+    }
+
+    // Show registration confirmation page
+    public function thanks()
+    {
+        if( ! Session::has('doctor-signup') ) {
+            return redirect('/');
+        }
+        
+        $this->guard()->login( Session::get('user') );
+        
+        return view('user::doctor.registration-completed');
     }
 }
