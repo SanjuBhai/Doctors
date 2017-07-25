@@ -30,6 +30,14 @@ Route::group(['middleware' => 'web', 'namespace' => 'Modules\User\Http\Controlle
 	Route::get('settings', 'SettingController@index')->name('admin.settings');
 	Route::post('settings', 'SettingController@store');
 
+	Route::get('users', 'UserController@index')->name('admin.users');
+	Route::get('users/add', 'UserController@create')->name('admin.users.add');
+	Route::post('users/add', 'UserController@store');
+	Route::get('users/edit/{user_id}', 'UserController@edit')->name('admin.users.edit');
+	Route::post('users/edit/{user_id}', 'UserController@update');
+	Route::get('users/view/{user_id}', 'UserController@show')->name('admin.users.view');
+	Route::post('users/delete', 'UserController@delete')->name('admin.users.delete');
+
 	Route::get('media', 'MediaController@index')->name('admin.media');
 
 	Route::get('profile', 'ProfileController@index')->name('admin.profile');

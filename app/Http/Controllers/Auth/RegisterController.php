@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Mail\UserRegistered;
 use Session, Mail;
@@ -39,7 +40,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' =>['thanks']] );
     }
 
     /**
@@ -75,6 +76,22 @@ class RegisterController extends Controller
     }
 
     /**
+     * Handle a registration request for the application. (overridden)
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
+    }
+
+    /**
      * The user has been registered. (overridden)
      *
      * @param  \Illuminate\Http\Request  $request
@@ -83,11 +100,23 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        Session::flash('success', 'Check your email for confirmation link.');
+        Session::flash('user-signup', 'Check your email for confirmation link.');
         
         // Send mail to user
-        Mail::to( $user->email )->send(new UserRegistered( $user ));
+        // Mail::to( $user->email )->send(new UserRegistered( $user ));
 
-        return redirect( $this->redirectPath() );
+        return redirect()->route('user.signup.completed')->with('user', $user);
+    }
+
+    // Show registration confirmation page
+    public function thanks()
+    {
+        if( ! Session::has('user-signup') ) {
+            return redirect('/');
+        }
+        
+        $this->guard()->login( Session::get('user') );
+        
+        return view('registration-completed');
     }
 }

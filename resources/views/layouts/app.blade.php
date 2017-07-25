@@ -39,8 +39,8 @@ jQuery(function($){
      $(this).tab('show');
    });
    
-   $('a[href="#"]').click(function (e) {
-     e.preventDefault();
+   $(document).on('click', 'a[href="#"]', function(e){
+      e.preventDefault();
    });
 
    // Prevent entering alphabets in numeric field

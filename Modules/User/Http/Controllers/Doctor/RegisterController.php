@@ -120,7 +120,7 @@ class RegisterController extends Controller
         Session::flash('doctor-signup', 'Check your email for confirmation link. You will have to wait until your Medical Registration Number gets verifed by our experts.');
         
         // Send mail to user
-        // Mail::to( $user->email )->send(new Register( $user ));
+        Mail::to( $user->email )->send(new Register( $user ));
 
         return redirect()->route('doctor.signup.completed')->with('user', $user);
     }

@@ -229,6 +229,9 @@ ul.alert-dropdown {
 .mt-10 {
     margin-top: 10px;
 }
+.mr-5 {
+    margin-right: 5px;
+}
 .mt-20 {
     margin-top: 20px;
 }
@@ -243,4 +246,7 @@ ul.alert-dropdown {
 }
 .pointer {
     cursor: pointer;
+}
+#filterForm .panel-heading button{
+    margin-top: -5px;
 }

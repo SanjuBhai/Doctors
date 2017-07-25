@@ -24,6 +24,7 @@ Route::group(['prefix' => 'api'], function(){
 	Route::post('get-data', 'ApiController@getData');
 });
 
+Route::get('register/completed', 'Auth\RegisterController@thanks')->name('user.signup.completed');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Show 404 page in case of incorrect url

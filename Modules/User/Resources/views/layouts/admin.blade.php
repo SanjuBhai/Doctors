@@ -18,6 +18,8 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+<script src="{{ url('modules/user/admin/js/jquery-3.2.1.min.js') }}"></script>
 </head>
 <body>
     <div id="wrapper">
@@ -65,7 +67,40 @@
         </div>
     </div>
 
-<script src="{{ url('modules/user/admin/js/jquery-3.2.1.min.js') }}"></script>
 <script src="{{ url('modules/user/admin/js/bootstrap.min.js') }}"></script>
+<script>
+jQuery(function($){
+    $(document).on('click', 'a[href="#"]', function(e){
+        e.preventDefault();
+    });
+    
+    // Prevent entering alphabets in numeric field
+    $(document).on('keypress','.numeric,input[type="number"]', function(evt){
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            return true;
+        }
+     
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    });
+     
+    $(document).on('paste drop', '.numeric,input[type="number"]', function(e){
+        e.preventDefault();
+    });
+
+    $('#filterForm #reset').click(function(){
+        $('#filterForm .form-control').val('');
+        $('#filterForm').submit();
+    });
+
+    $('#perPage').change(function(){
+        $('#filterForm').submit();
+    });
+});
+</script>
 </body>
 </html>

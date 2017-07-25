@@ -3,74 +3,91 @@
 @section('title', 'Users')
 
 @section('content')
-<div class="container mt-20">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3 class="text-center">Welcome to Admin panel</h3>
-                    
-                    @if( Session::has('error') )
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
 
-                    <form class="form-horizontal mt-20" method="POST" action="{{ route('admin.login') }}">
-                        {{ csrf_field() }}
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header"> Users <a href="{{ route('admin.users.add') }}" class='btn btn-sm btn-primary'>Add New</a></h2>
+    </div>
+</div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
-                            </div>
-                        </div>
-                    </form>
+<div class="row">
+    <div class="col-xs-12">
+        @include('user::admin.messages')
+        
+        @include('user::admin.filter', ['template' => 'users'])
+        
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <strong>Users</strong>
+                @if( $users->total() )
+                    <span class='pull-right'>
+                        {{ $showing }}
+                    </span>
+                @endif
+            </div>
+            <div class='panel-body'>
+                <div class='table-responsive'>
+                    <table class="table table-bordered table-stripped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if( $users->isEmpty() ) 
+                                <tr><td colspan="5">No users found.</td></tr>
+                            @else
+                                @foreach($users as $key => $val)
+                                    <tr>
+                                        <td><a href="{{ route('admin.users.view', ['user_id' => $val->id]) }}" target='_blank'>{{ $val->getFullName() }}</a></td>
+                                        <td><a href="mailto:{{ $val->email }}">{{ $val->email }}</a></td>
+                                        <td>{{ $val->phone }}</td>
+                                        <td>{{ $val->address }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.users.edit', array('user_id' => $val->id)) }}">Edit</a> | 
+                                            <a href="#" class='red delete' data-user="{{ $val->id }}">Delete</a>
+                                        </td>
+                                    </tr>
+                                @endforeach                        
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+
+        {{ $users->appends(request()->all())->links() }}
     </div>
 </div>
-@endsection
+
+<script type='text/javascript'>
+jQuery(function($){
+    var url = "{{ route('admin.users.delete') }}";
+    var _token = "{{ csrf_token() }}";
+    $(document).on('click', '.delete', function(e){
+        e.preventDefault();
+        if( confirm('Are you sure you want to delete? This action can not be undone.') )
+        {
+            var user = $(this).data('user');
+            var obj = $(this);
+            $.post(url, {user: user, _token: _token}, function(response){
+                if(response == 'true')
+                {
+                    obj.closest('tr').fadeOut('slow');
+                    setTimeout( function() {
+                        obj.closest('tr').remove();
+                    }, 1000);
+                    alert('User deleted.');
+                } else {
+                    alert(response);
+                }
+            });
+        }
+    });
+});
+</script>
+@stop

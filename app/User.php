@@ -29,7 +29,6 @@ class User extends Authenticatable
         static::creating(function ($model) {
             $model->ip_address = ip2long($_SERVER['REMOTE_ADDR']);
             $model->user_agent = $_SERVER['HTTP_USER_AGENT'];
-            $model->is_email_verified = 0;
         });
 
         static::updating(function ($model) {
