@@ -1,4 +1,4 @@
-@extends('user::layouts.admin')
+@extends('user::layouts.admin.default')
 
 @section('title', 'Users')
 
@@ -14,7 +14,7 @@
     <div class="col-xs-12">
         @include('user::admin.messages')
         
-        @include('user::admin.filter', ['template' => 'users'])
+        @include('user::admin.filter')
         
         <div class='panel panel-default'>
             <div class='panel-heading'>

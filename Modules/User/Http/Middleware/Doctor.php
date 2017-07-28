@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class Doctor
 {
+
+    private $doctor_role_id = 3;
+
     /**
      * Handle an incoming request.
      *
@@ -21,7 +24,7 @@ class Doctor
         }
 
         // Check if current user is doctor
-        if( Auth::user()->role_id != 2 ) {
+        if( Auth::user()->role_id != $this->doctor_role_id ) {
             return redirect('/');
         }
         

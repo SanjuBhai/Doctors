@@ -1,4 +1,4 @@
-@extends('user::layouts.admin-login')
+@extends('user::layouts.admin.login')
 
 @section('title', 'Admin Login')
 

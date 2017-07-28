@@ -15,7 +15,7 @@
                                 <input id="first_name" type="text" class="form-control" name="first_name" value="{{ old('first_name') }}" required autofocus>
 
                                 @if ($errors->has('first_name'))
-                                    <span class="help-block">
+                                    <span class="help-block red">
                                         {{ $errors->first('first_name') }}
                                     </span>
                                 @endif
@@ -27,7 +27,7 @@
                             <div class="col-md-6">
                                 <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name') }}">
                                 @if ($errors->has('last_name'))
-                                    <span class="help-block">
+                                    <span class="help-block red">
                                         {{ $errors->first('last_name') }}
                                     </span>
                                 @endif
@@ -40,7 +40,7 @@
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
                                 @if ($errors->has('email'))
                                     <span class="help-block red">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        {{ $errors->first('email') }}
                                     </span>
                                 @endif
                             </div>
@@ -53,7 +53,7 @@
 
                                 @if ($errors->has('password'))
                                     <span class="help-block red">
-                                        <strong>{{ $errors->first('password') }}</strong>
+                                        {{ $errors->first('password') }}
                                     </span>
                                 @endif
                             </div>

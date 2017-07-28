@@ -29,6 +29,8 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/admin/dashboard';
 
+    private $admin_role_id = 1;
+
     /**
      * Create a new controller instance.
      *
@@ -75,10 +77,10 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         // Check of current user is authorised
-        if( $user->role_id != 1 ) {
+        if( $user->role_id != $this->admin_role_id ) {
             $this->logout($request, 'You are not authorised.');
         }
-
+        
         return redirect( $this->redirectPath() );
     }
 }

@@ -33,6 +33,8 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
+    private $role_id = 2;
+
     /**
      * Create a new controller instance.
      *
@@ -72,6 +74,7 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'role_id'  => $this->role_id
         ]);
     }
 

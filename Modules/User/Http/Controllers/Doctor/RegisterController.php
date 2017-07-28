@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Modules\User\Emails\Dcotor\Register;
+use Modules\User\Emails\Doctor\Register;
 use Session, Mail;
 use Modules\User\Models\Doctor\Doctor;
 use Modules\User\Models\Doctor\Specialization;
@@ -35,6 +35,8 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/doctor/register/completed';
 
+    private $role_id = 3;
+
     /**
      * Create a new controller instance.
      *
@@ -59,7 +61,7 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'prefix' => 'required|in:Dr.,Dt.,Mr.,Ms.,Mrs.',
             'speciality_id' => 'required|integer',
-            'medical_registration_number' => 'required|unique:doctors'
+            'medical_registration_number' => 'required|unique:doctors'            
         ]);
     }
 
@@ -74,7 +76,7 @@ class RegisterController extends Controller
         $user = User::create([
             'first_name' => $data['name'],
             'email'     => $data['email'],
-            'role_id'   => 2,
+            'role_id'   => $this->role_id,
             'password'  => bcrypt($data['password']),
         ]);
 
@@ -85,6 +87,7 @@ class RegisterController extends Controller
                 'prefix' => $data['prefix'],
                 'name' => $data['name'],
                 'speciality_id' => $data['speciality_id'],
+                'medical_registration_number' => $data['medical_registration_number'],
                 'status' => 0
             ]);
         }

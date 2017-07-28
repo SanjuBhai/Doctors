@@ -23,10 +23,9 @@ class Register extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, Doctor $doctor)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->doctor = $doctor;
     }
 
     /**

@@ -18,6 +18,8 @@ class Doctor extends Model
 
 	public $timestamps = true;
 
+    protected $with = ['specialization'];
+
     protected $fillable = [
         'doctor_id','speciality_id', 'name', 'image', 'gender', 'qualifications', 'medical_registration_number','referral_code','prefix','clinic_name','clinic_fees','clinic_phone','clinic_city','clinic_locality','online_fees','experience','personal_statement','clinic_latitude','clinic_longitude','rating_count','like_count','status','facebook_link','twitter_link','linkedin_link','googleplus_link'
     ];
@@ -40,6 +42,12 @@ class Doctor extends Model
         }
 
         return url('images/male.png');
+    }
+
+    // Returns doctor status
+    public function isApproved()
+    {
+        return $this->status;
     }
 
     // Get user details

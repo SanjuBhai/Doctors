@@ -1,4 +1,4 @@
-@extends('user::layouts.admin')
+@extends('user::layouts.admin.default')
 
 @section('title', 'Change Password')
 
@@ -53,5 +53,9 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+activateMenu('menu-user');
+</script>
 
 @stop

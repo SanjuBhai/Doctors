@@ -21,6 +21,12 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    private $admin_role_id = 1;
+
+    private $user_role_id = 2;
+
+    private $doctor_role_id = 3;
+
     /**
      * Where to redirect users after login.
      *
@@ -53,5 +59,24 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('login');
+    }
+
+    /**
+     * The user has been authenticated. (overridden)
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        // Check of current user is authorised
+        if( $user->role_id == $this->admin_role_id ) {
+            return redirect()->route('admin.dashboard');
+        } else if( $user->role_id == $this->doctor_role_id ) {
+            return redirect()->route('doctor.dashboard');
+        }
+
+        return redirect( $this->redirectPath() );
     }
 }

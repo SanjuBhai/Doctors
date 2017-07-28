@@ -10,9 +10,17 @@
                      <li class="dropdown other-category">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->getFullName() }} <b class="caret"></b></a>
                         <ul class="dropdown-menu category-list">
-                           <li><a href="{{ url('account') }}">My Account</a></li>
-                           <li><a href="{{ url('account/change-password') }}">Change Password</a></li>
-                           <li><a href="{{ route('logout') }}">Logout?</a></li>
+                           @if(Auth::user()->role_id == 1)
+                              <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                              <li><a href="{{ route('admin.logout') }}">Logout?</a></li>
+                           @elseif(Auth::user()->role_id == 2)
+                              <li><a href="#">My Account</a></li>
+                              <li><a href="#">Change Password</a></li>
+                              <li><a href="{{ route('logout') }}">Logout?</a></li>
+                           @else
+                              <li><a href="{{ route('doctor.dashboard') }}">Dashboard</a></li>
+                              <li><a href="{{ route('logout') }}">Logout?</a></li>
+                           @endif
                         </ul>
                      </li>
                   @else

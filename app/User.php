@@ -5,8 +5,6 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use Mail, Session, Config;
 use App\UserLoginHistory;
 
 class User extends Authenticatable
@@ -20,7 +18,7 @@ class User extends Authenticatable
     ];
 
     protected $fillable = [
-        'first_name','last_name','email','password','phone','role_id','image','state','city','address','facebook_id','twitter_id','google_id','linkedin_id','device_type','is_email_verified','remember_token','ip_address','user_agent'
+        'role_id', 'first_name', 'last_name', 'email', 'password', 'phone', 'gender', 'dob', 'image', 'state', 'city', 'address','facebook_id', 'twitter_id', 'google_id', 'linkedin_id', 'device_type', 'is_email_verified', 'remember_token', 'ip_address', 'user_agent'
     ];
 
     // Listeners
@@ -110,5 +108,14 @@ class User extends Authenticatable
     public function setLastNameAttribute($value)
     {
         $this->attributes['last_name'] = ucfirst( trim( strip_tags( $value ) ) );
+    }
+
+    /**
+     * Custom code starts
+     */
+
+    public function doctor()
+    {
+        return $this->hasOne('Modules\User\Models\Doctor\Doctor', 'doctor_id', 'id');
     }
 }

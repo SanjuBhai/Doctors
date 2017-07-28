@@ -608,3 +608,6 @@ ul.list-inline.slides li {
 .otp-msg {
     display: none;
 }
+.red {
+    color: red;
+}

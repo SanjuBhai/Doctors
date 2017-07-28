@@ -8,12 +8,18 @@ use Illuminate\Routing\Controller;
 use Auth, Session, Validator;
 use App\User;
 use Modules\User\Traits\Filter;
+use Modules\User\Http\Middleware\Admin;
 
 class UserController extends Controller
 {
     use Filter;
 
-    private $role_id = 3;
+    private $role_id = 2;
+
+    public function __construct()
+    {
+        $this->middleware(Admin::class);
+    }
 
     /**
      * Display a listing of the resource.
@@ -24,12 +30,11 @@ class UserController extends Controller
         $model = User::where('role_id', $this->role_id);
 
         // Filter records
-        $this->setPerPageArray( array(1, 2, 3, 4) );
-        $this->setPerPage( request('per_page') ? request('per_page') : 1 );
         $model = $this->filter($model);
 
         return view('user::admin.users.index')->with([
             'users' => $model,
+            'filters' => $this->getFilters(),
             'showing' => $this->showing($model),
             'perPageArray' => $this->getPerPageArray()
         ]);
@@ -79,8 +84,8 @@ class UserController extends Controller
             Session::flash('success', 'User added successfully.');
             return redirect()->route('admin.users');
         }
-
-        Session::flash('error', 'Unable to create user at the moment. Please try after smoe time.');
+        
+        Session::flash('error', 'Unable to create user at the moment. Please try after some time.');
         return view('user::admin.users.create');
     }
 
@@ -176,27 +181,24 @@ class UserController extends Controller
         return array(
             'name' => array(
                 'key' => 'first_name',
-                'operator' => 'like'
+                'operator' => 'like',
+                'label' => 'First Name',
+                'type' => 'text',
+                'id' => 'name'
             ),
             'email' => array(
                 'key' => 'email',
-                'operator' => '='
+                'operator' => '=',
+                'label' => 'Email',
+                'type' => 'email',
+                'id' => 'email'
             ),
             'phone' => array(
                 'key' => 'phone',
-                'operator' => '='
-            ),
-            'state' => array(
-                'key' => 'state',
-                'operator' => 'like'
-            ),
-            'city' => array(
-                'key' => 'city',
-                'operator' => 'like'
-            ),
-            'address' => array(
-                'key' => 'address',
-                'operator' => '='
+                'operator' => '=',
+                'label' => 'Phone',
+                'type' => 'text',
+                'id' => 'phone'
             )
         );
     }

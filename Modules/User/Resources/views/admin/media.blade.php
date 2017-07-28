@@ -1,4 +1,4 @@
-@extends('user::layouts.admin')
+@extends('user::layouts.admin.default')
 
 @section('title', 'Media')
 
