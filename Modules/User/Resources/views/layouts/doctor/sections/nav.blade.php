@@ -9,6 +9,9 @@
         <li id='menu-video'>
             <a href="{{ route('doctor.videos') }}"><i class="fa fa-fw fa-video-camera"></i> Videos</a>
         </li>
+        <li id='menu-calendar'>
+            <a href="{{ route('doctor.calendar') }}"><i class="fa fa-fw fa-calendar"></i> Calendar</a>
+        </li>
         <li id='menu-appointment'>
             <a href="{{ route('doctor.appointments') }}"><i class="fa fa-fw fa-calendar-o"></i> Appointments</a>
         </li>

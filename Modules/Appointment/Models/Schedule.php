@@ -13,6 +13,24 @@ class Schedule extends Model
 	public $timestamps = false;
 
     protected $fillable = [
-        'user_id', 'date', 'time', 'is_used', 'created_at'
+        'user_id', 'date', 'time', 'is_used'
     ];
+
+    // Listeners
+    public static function boot()
+    {
+        static::creating(function ($model) {
+            $model->created_at = $model->freshTimestamp();
+        });
+
+        static::updating(function ($model) {
+            // blah blah
+        });
+
+        static::deleting(function ($model) {
+            // blah blah
+        });
+        
+        parent::boot();
+    }
 }

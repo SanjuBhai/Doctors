@@ -3,20 +3,22 @@
 namespace Modules\User\Http\Controllers\Doctor;
 
 use Illuminate\Routing\Controller;
-use Modules\User\Http\Middleware\Doctor;
+use Modules\User\Http\Middleware\Doctor as DoctorMiddleware;
+use Modules\User\Models\Doctor\Doctor;
 use Validator, Auth, Session, Request;
 
 class ProfileController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(Doctor::class);
+        $this->middleware(DoctorMiddleware::class);
     }
 
     // Show Profile
     public function index()
     {
-        return view('user::doctor.profile')->with('user', Auth::user());
+        $doctor = Doctor::with('user')->where('doctor_id', Auth::user()->id)->first();
+        return view('user::doctor.profile')->with('doctor', $doctor);
     }
 
     // Update profile
@@ -25,9 +27,9 @@ class ProfileController extends Controller
         if( Request::isMethod('post') )
         {
             $args = Request::all();
-            $usersObject = Auth::User();
-            $usersObject->fill($args);
-            $saved = $usersObject->push();
+            $doctor = Doctor::with('user')->where('doctor_id', Auth::user()->id)->first();
+            $doctor->fill( $args );
+            $saved = $doctor->push();
             Session::flash('success', 'Profile updated successfully.');
         }
 

@@ -1,0 +1,2 @@
+<link rel="stylesheet" type="text/css" href="{{ url('modules/user/admin/plugins/flex-slider/flex-slider.css') }}">
+<script src="{{ url('modules/user/admin/plugins/flex-slider/flex-slider.js') }}"></script>

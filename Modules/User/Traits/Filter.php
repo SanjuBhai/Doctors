@@ -86,7 +86,7 @@ trait Filter
         
         foreach($params as $key => $val)
         {
-            if( $val && isset( $filters[$key] ) )
+            if( $val!='' && isset( $filters[$key] ) )
             {
                 $operator = $filters[$key]['operator'];
                 switch( $operator )
@@ -133,7 +133,7 @@ trait Filter
                 }
             }
         }
-
+        
         return $model->orderBy($this->getOrderBy(), $this->getOrder())->paginate( $this->getPerPage() );
     }
 }

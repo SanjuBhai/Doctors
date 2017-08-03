@@ -33,8 +33,8 @@
                                 <th>Name</th>
                                 <th>Specialization</th>
                                 <th>Registration Number</th>
-                                <th>Clinic Name</th>
-                                <th>Clinic Fees</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Option</th>
                             </tr>
                         </thead>
@@ -47,10 +47,14 @@
                                         <td><a href="{{ route('admin.doctors.view', ['user_id' => $val->id]) }}" target='_blank'>{{ $val->prefix.' '.$val->name }}</a></td>
                                         <td>{{ $val->specialization }}</td>
                                         <td>{{ $val->medical_registration_number }}</a></td>
-                                        <td>{{ $val->clinic_name }}</a></td>
-                                        <td>{{ $val->clinic_fees }}</td>
+                                        <td><a href="mailto:{{ $val->email }}">{{ $val->email }}</a></td>
+                                        <td>{{ $val->phone }}</td>
                                         <td>
-                                            
+                                            @if( $val->status==1 )
+                                                <span class='label label-success'>Verfied</span>
+                                            @else
+                                                <input type='button' class='btn btn-sm btn-primary verify' value='Verify' data-doctor="{{ $val->id }}">
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -65,4 +69,26 @@
     </div>
 </div>
 
+<script type='text/javascript'>
+jQuery(function($){
+    var url = "{{ route('admin.doctors.verify') }}";
+    var _token = "{{ csrf_token() }}";
+    $(document).on('click', '.verify', function(e){
+        e.preventDefault();
+        if( confirm('Are you sure you want to verify?') )
+        {
+            var doctor = $(this).data('doctor');
+            var obj = $(this); obj.attr('disabled', true).val('Please wait...');
+            $.post(url, {id: doctor, _token: _token}, function(response){
+                if(response == 'true') {
+                    obj.replaceWith('<span class="label label-success">Verified</span>');
+                } else {
+                    obj.attr('disabled', false).val('Verify');
+                    alert(response);
+                }
+            });
+        }
+    });
+});
+</script>
 @stop

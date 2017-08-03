@@ -1,0 +1,34 @@
+ul.list-inline.slides li {
+    border: 1px solid #eee;
+    padding: 5px 15px;
+    cursor: pointer;
+    width: auto !important;
+}
+.timings {
+    margin-top: 30px;
+}
+.timings li.active, .timings li.not-used:hover, ul.slides li.active, ul.slides li:hover {
+    background: #ddd;
+    font-weight: bold;
+}
+.timings li.used {
+    background-color: green;
+    color: #fff;
+}
+#days-slider .flex-nav-prev {
+    float: left;
+    margin-left: -38px;
+}
+#days-slider .flex-nav-next {
+    float: right;
+}
+#days-slider ul.flex-direction-nav {
+    list-style: none;
+}
+.timings li {
+    float: left;
+    margin: 0 10px 10px 0;
+    border: 1px solid #ccc;
+    padding: 2px 20px;
+    cursor: pointer
+}

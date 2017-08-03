@@ -12,7 +12,7 @@
             @if( $filters )
                 <button type='button' class='btn btn-sm btn-danger pull-right' id='reset'>Reset</button>
                 <button type='submit' class='btn btn-sm btn-primary mr-5 pull-right'>Filter</button>
-                <button type='button' class='btn btn-sm btn-default mr-5 pull-right' data-toggle='collapse' data-target='#panel'>Toggle collapse</button>
+                <button type='button' class='btn btn-sm btn-default mr-5 pull-right' data-toggle='collapse' data-target='#panel'>Toggle</button>
             @endif
         </div>
 
@@ -26,7 +26,7 @@
                                 <select class="form-control" id="{{ $val['id'] }}" name="{{ $key }}">
                                     <option value=''>---Select---</option>
                                     @foreach($val['values'] as $key1 => $val1)
-                                        <option value="{{ $key1 }}" {{ request($key)==$key1 ? 'selected' : ''}}>{{ $val1 }}</option>
+                                        <option value="{{ $key1 }}" {{ request($key)!='' && request($key)==$key1 ? 'selected' : ''}}>{{ $val1 }}</option>
                                     @endforeach
                                 </select>
                             @else

@@ -42,11 +42,9 @@ class SearchController extends Controller
             // Get Doctors
             $select = array('doctor_id');
             $doctors = DB::table('doctors_search as ds')
-                ->select('doctor_id')
-                ->where('ds.status', 1);
+                ->select('doctor_id');
 
-            $doctorsCount = DB::table('doctors_search as ds')
-                ->where('ds.status', 1);
+            $doctorsCount = DB::table('doctors_search as ds');
             
             // Get gender
             if( isset($filters['gender']) && $filters['gender'] ) 
